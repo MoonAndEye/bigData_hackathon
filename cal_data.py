@@ -27,6 +27,9 @@ def loadInPd(_path):
     pre_array['available'] = pre_array['available'].astype(int)
     return(pre_array)
     
+#test = loadInPd(history_list[0])
 
-
-test = loadInPd(history_list[0])
+result_df = loadInPd(history_list[0])
+result_df = result_df.set_index('id')
+result_df = result_df.drop(['available', 'time'], axis = 1)
+    
