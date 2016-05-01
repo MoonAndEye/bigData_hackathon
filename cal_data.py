@@ -7,6 +7,7 @@ Created on Sun May  1 09:22:59 2016
 import pandas as pd
 import os, sys
 
+merge_base = ['available' , 'id', 'time']#這個放要合併基準
 
 file_path = 'C:/1save/taipei_parking/' #檔案路徑的代號，這邊放歷史資料
 history_list = []
