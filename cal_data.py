@@ -58,5 +58,10 @@ test2 = pd.DataFrame(loadInPd(history_list[0]))
 for all_csv in history_list:
     result_df = addData(result_df, all_csv)    
 
+aftcsv = pd.DataFrame.to_csv(result_df)
 
+csv_file = open('C:/1save/result.csv', 'w', encoding = 'utf-8' )
 
+csv_file.write(aftcsv)
+
+csv_file.close()

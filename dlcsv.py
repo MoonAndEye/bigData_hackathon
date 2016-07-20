@@ -37,7 +37,7 @@ for i in dl_link:
     name_list.append(i)
     i = url + i
     dl_list.append(i)
-print(dl_list)
+#print(dl_list)
 
 for csv_url in dl_list:
     
