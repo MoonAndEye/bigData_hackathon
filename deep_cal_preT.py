@@ -11,7 +11,10 @@ import os, py
 import numpy as np
 import datetime
 from datetime import date
+import time
 
+
+start_time = time.time() #這個是抓計算時間的
 
 file_path = 'C:/1save/taipei_parking/' #檔案路徑的代號，這邊放歷史資料
 history_list = []
@@ -51,6 +54,8 @@ for name in os.listdir(file_path):
     如果是,則把他放到 weekEnd
     否, 則放到 weekDay
     """
+    
+    
     if obj.isoweekday() == 6:
         weekEndFL.append(file_path + name)
         weekEndNL.append(obj)
@@ -80,7 +85,7 @@ for each in dateTimeL:
     else:
         weekDayNL.append(each)
         weekDayFL.append(history_list[fileIn])
-"""        
+"""    
         
 """
 def weekendOrNot(path = str, yesNo = bool):
@@ -89,4 +94,28 @@ def weekendOrNot(path = str, yesNo = bool):
         tempL.append(each)
 """ 
 
+"""
+#下面開始 分別把 weekday, weekend 的資料合成一個 DataFrame
+#然後再分別輸出成 csv, 之後用另一個檔案直接計算 csv,而非每次都讀檔
+"""
+def loadInPd(_path):
+    time = _path[-21:-4]
+    pre_array =pd.read_csv(_path, skiprows = 1,encoding = 'utf-8')
+    csv_columns = ['no-need1','no-need2','available','id']
+    pre_array.columns = csv_columns
+    pre_array = pre_array.drop(['no-need1', 'no-need2'], axis = 1)
+    pre_array['time'] = time
+    pre_array['time'] = pre_array['time'].astype(str)
+    pre_array['available'] = pre_array['available'].astype(int)
+    return(pre_array)
+
+
+"""
+#以下三行確定可以 run, 但先稍微優化一下
+result_df = loadInPd(history_list[0])
+result_df = result_df.set_index('id')
+result_df = result_df.drop(['available','time'], axis = 1)
+"""
+
+print("Run time --- %s seconds ---" % (time.time() - start_time))
 #target_list = weekendOrNot(file_path, True)
