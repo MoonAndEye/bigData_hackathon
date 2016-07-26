@@ -46,6 +46,11 @@ for name in os.listdir(file_path):
     dateTimeL.append(obj) #obj 是轉換成 datetime後的東西
     #print(obj.isoweekday())
     
+    """
+    用 date.isoweekday() 判斷是否 Sat, Sun
+    如果是,則把他放到 weekEnd
+    否, 則放到 weekDay
+    """
     if obj.isoweekday() == 6:
         weekEndFL.append(file_path + name)
         weekEndNL.append(obj)
