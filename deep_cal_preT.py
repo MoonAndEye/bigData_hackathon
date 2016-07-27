@@ -11,10 +11,10 @@ import os, py
 import numpy as np
 import datetime
 from datetime import date
-import time
+#import time
 
 
-start_time = time.time() #這個是抓計算時間的
+#start_time = time.time() #這個是抓計算時間的
 
 file_path = 'C:/1save/taipei_parking/' #檔案路徑的代號，這邊放歷史資料
 history_list = []
@@ -110,6 +110,17 @@ def loadInPd(_path):
     return(pre_array)
 
 
+
+firstPD = pd.read_csv(history_list[0])
+firstPD = firstPD[1:]
+"""
+#不知道為什麼,第一行會重複,這個動作就是把他砍了,回去加個 if 判斷好了,不然有點恐怖
+#哪一天他修正了，都不知道怎麼砍的
+"""
+columnL = list(firstPD.columns.values)
+#a = columnL.pop(0)
+indexL = firstPD[columnL[-1]]
+#a = columnL.pop(0)
 """
 #以下三行確定可以 run, 但先稍微優化一下
 result_df = loadInPd(history_list[0])
@@ -117,5 +128,5 @@ result_df = result_df.set_index('id')
 result_df = result_df.drop(['available','time'], axis = 1)
 """
 
-print("Run time --- %s seconds ---" % (time.time() - start_time))
+#print("Run time --- %s seconds ---" % (time.time() - start_time))
 #target_list = weekendOrNot(file_path, True)
