@@ -134,20 +134,39 @@ indexL = firstPD[columnL[-1]] #indexL 則是放所有的停車場的 ID, 之後�
 
 weekEndResult = pd.DataFrame(index = indexL) #先做出模版, index 用停車場ID
 
-#preDF = loadInPd(weekEndFL[2])
+#preDF = loadInPd(weekEndFL[5000])
 
 
-for each_raw in weekEndFL:
+for each_raw in weekEndFL[:585]:
     preDF = loadInPd(each_raw)
     indexCount = weekEndFL.index(each_raw)
     dateIn = weekEndNL[indexCount]
+    delList = []
+    preIn = list(preDF.index.values)
+    """
+    #這有問題
+    for each_In in preIn:
+        if each_In not in indexL:
+            preDF = preDF.drop(each_In)    
+    
+    for each_In in indexL:
+        if each_In not in preIn:
+            preDF = preDF.join(each_In)
+    """
     #colN = preDF.columns.values
+    
     preDF.columns = [dateIn]
     #preDF = preDF.rename(columns = {"AVAILABLECAR", dateIn}) #這行有錯
     #delayMatrix = pd.concat([delayMatrix, b4_input], axis=1, join_axes=[b4_input.index])
-    weekEndResult = pd.concat([weekEndResult, preDF], axis = 1, join_axes=[preDF.index])
+    # result = pd.merge(left, right, left_index=True, right_index=True, how='outer')
+    #weekEndResult = pd.concat([weekEndResult, preDF], axis = 1, join_axes=[weekEndResult.index], join = "outer")
+    #weekEndResult = pd.merge(weekEndResult, preDF)
+    #b4 = weekEndResult.copy()
+    #weekEndResult = weekEndResult.join(preDF)
+    #b4 = weekEndResult.copy()
+    weekEndResult = pd.concat([weekEndResult, preDF], axis = 1, join_axes=[weekEndResult.index])
 
-
+#a = weekEndResult.index.values
 
 #weekEndResult = firstPD.copy()
 #weekEndResult = weekEndResult.set_index(columnL[-1])
