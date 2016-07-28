@@ -98,6 +98,9 @@ def weekendOrNot(path = str, yesNo = bool):
 #下面開始 分別把 weekday, weekend 的資料合成一個 DataFrame
 #然後再分別輸出成 csv, 之後用另一個檔案直接計算 csv,而非每次都讀檔
 """
+
+"""
+#這個是舊的,如果新的成功了,就可以砍了
 def loadInPd(_path):
     time = _path[-21:-4]
     pre_array =pd.read_csv(_path, skiprows = 1,encoding = 'utf-8')
@@ -108,19 +111,35 @@ def loadInPd(_path):
     pre_array['time'] = pre_array['time'].astype(str)
     pre_array['available'] = pre_array['available'].astype(int)
     return(pre_array)
+"""
 
-
-
-firstPD = pd.read_csv(history_list[0])
+firstPD = pd.read_csv(history_list[0],index_col = [0]) #用index_col才不會一直有Unnamed
 if firstPD["ID"][0] == firstPD["ID"][1]:
     firstPD = firstPD[1:]
 """
 #不知道為什麼,第一行會重複,這個動作就是把他砍了,用if 判斷,一樣才砍
 """
-columnL = list(firstPD.columns.values)
-#a = columnL.pop(0)
-indexL = firstPD[columnL[-1]]
-#a = columnL.pop(0)
+columnL = list(firstPD.columns.values) #columnL 就是DataFrame的list 列表
+indexL = firstPD[columnL[-1]] #indexL 則是放所有的停車場的 ID, 之後的合併標準
+
+weekEndResult = pd.DataFrame(index = indexL) #先做出模版, index 用停車場ID
+
+for each_raw in weekEndFL:
+    preDF = pd.read_csv
+
+
+
+#weekEndResult = firstPD.copy()
+#weekEndResult = weekEndResult.set_index(columnL[-1])
+#tempCol = list(weekEndResult.columns.values)
+
+#for eachRaw in weekDayFL:
+    
+
+
+
+
+
 """
 #以下三行確定可以 run, 但先稍微優化一下
 result_df = loadInPd(history_list[0])
