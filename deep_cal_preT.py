@@ -112,10 +112,10 @@ def loadInPd(_path):
 
 
 firstPD = pd.read_csv(history_list[0])
-firstPD = firstPD[1:]
+if firstPD["ID"][0] == firstPD["ID"][1]:
+    firstPD = firstPD[1:]
 """
-#不知道為什麼,第一行會重複,這個動作就是把他砍了,回去加個 if 判斷好了,不然有點恐怖
-#哪一天他修正了，都不知道怎麼砍的
+#不知道為什麼,第一行會重複,這個動作就是把他砍了,用if 判斷,一樣才砍
 """
 columnL = list(firstPD.columns.values)
 #a = columnL.pop(0)
