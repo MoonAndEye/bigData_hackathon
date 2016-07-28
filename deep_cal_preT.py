@@ -113,6 +113,16 @@ def loadInPd(_path):
     return(pre_array)
 """
 
+def loadInPd(_path):
+    pre_array = pd.read_csv(_path,index_col = [0])
+    if pre_array["ID"][0] == pre_array["ID"][1]:
+        pre_array = pre_array[1:]
+    pre_array = pre_array.set_index("ID")
+    pre_array = pre_array.drop("index", 1) #小的不要
+    
+    return (pre_array)
+
+
 firstPD = pd.read_csv(history_list[0],index_col = [0]) #用index_col才不會一直有Unnamed
 if firstPD["ID"][0] == firstPD["ID"][1]:
     firstPD = firstPD[1:]
@@ -124,8 +134,18 @@ indexL = firstPD[columnL[-1]] #indexL 則是放所有的停車場的 ID, 之後�
 
 weekEndResult = pd.DataFrame(index = indexL) #先做出模版, index 用停車場ID
 
+#preDF = loadInPd(weekEndFL[2])
+
+
 for each_raw in weekEndFL:
-    preDF = pd.read_csv
+    preDF = loadInPd(each_raw)
+    indexCount = weekEndFL.index(each_raw)
+    dateIn = weekEndNL[indexCount]
+    #colN = preDF.columns.values
+    preDF.columns = [dateIn]
+    #preDF = preDF.rename(columns = {"AVAILABLECAR", dateIn}) #這行有錯
+    #delayMatrix = pd.concat([delayMatrix, b4_input], axis=1, join_axes=[b4_input.index])
+    weekEndResult = pd.concat([weekEndResult, preDF], axis = 1, join_axes=[preDF.index])
 
 
 
