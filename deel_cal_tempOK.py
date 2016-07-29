@@ -72,20 +72,7 @@ for name in os.listdir(file_path):
     history_list.append(name)
     
 #print(dateTimeL[1000].isoweekday())
-"""
-#以下不需要了,我合併進 for loop
-for each in dateTimeL:
-    fileIn = dateTimeL.index(each)
-    if each.isoweekday() == 6:
-        weekEndNL.append(each)
-        weekEndFL.append(history_list[fileIn])
-    elif each.isoweekday() == 7:
-        weekEndNL.append(each)
-        weekEndFL.append(history_list[fileIn])
-    else:
-        weekDayNL.append(each)
-        weekDayFL.append(history_list[fileIn])
-"""    
+
         
 """
 def weekendOrNot(path = str, yesNo = bool):
@@ -119,7 +106,7 @@ def loadInPd(_path):
         pre_array = pre_array[1:]
     pre_array = pre_array.set_index("ID")
     pre_array = pre_array.drop("index", 1) #小的不要
-    
+    pre_array = pre_array.groupby(pre_array.index).first()
     return (pre_array)
 
 
@@ -133,22 +120,37 @@ columnL = list(firstPD.columns.values) #columnL 就是DataFrame的list 列表
 indexL = firstPD[columnL[-1]] #indexL 則是放所有的停車場的 ID, 之後的合併標準
 
 weekEndResult = pd.DataFrame(index = indexL) #先做出模版, index 用停車場ID
-
+weekEndResult = weekEndResult.groupby(weekEndResult.index).first()
 #preDF = loadInPd(weekEndFL[5000])
-
+"""
+#以下測試
 a1 = loadInPd(weekEndFL[0])
+a1 = a1.groupby(a1.index).first()
 a1.columns = [weekEndNL[0]]
 a2 = loadInPd(weekEndFL[1])
+a2 = a2.groupby(a2.index).first()
 a2.columns = [weekEndNL[1]]
 #a2.columns = a1[weekEndNL[1]]
 a900 = loadInPd(weekEndFL[900])
+a900 = a900.groupby(a900.index).first()
 a900.columns = [weekEndNL[900]]
 
-weekEndResult = weekEndResult.join(a1, how = "outer")
-weekEndResult = weekEndResult.join(a2, how = "outer")
-weekEndResult = weekEndResult.join(a900, how = "outer")
+a901 = loadInPd(weekEndFL[901])
+a901.columns = [weekEndNL[901]]
+
+a902 = loadInPd(weekEndFL[902])
+a902.columns = [weekEndNL[902]]
 """
-for each_raw in weekEndFL[:585]:
+
+#weekEndResult = weekEndResult.join(a1, how = "outer")
+#weekEndResult = weekEndResult.join(a2, how = "outer")
+#weekEndResult = weekEndResult.join(a900, how = "outer")
+
+#weekEndResult = weekEndResult.join(a901, how = "outer")
+#weekEndResult = weekEndResult.join(a902, how = "outer")
+
+
+for each_raw in weekEndFL:
     preDF = loadInPd(each_raw)
     indexCount = weekEndFL.index(each_raw)
     dateIn = weekEndNL[indexCount]
@@ -158,6 +160,8 @@ for each_raw in weekEndFL[:585]:
     #colN = preDF.columns.values
     
     preDF.columns = [dateIn]
+    weekEndResult = weekEndResult.join(preDF, how = "outer")
+    weekEndResult = weekEndResult.groupby(weekEndResult.index).first()
     #preDF = preDF.rename(columns = {"AVAILABLECAR", dateIn}) #這行有錯
     #delayMatrix = pd.concat([delayMatrix, b4_input], axis=1, join_axes=[b4_input.index])
     # result = pd.merge(left, right, left_index=True, right_index=True, how='outer')
@@ -166,8 +170,8 @@ for each_raw in weekEndFL[:585]:
     #b4 = weekEndResult.copy()
     #weekEndResult = weekEndResult.join(preDF)
     #b4 = weekEndResult.copy()
-    weekEndResult = pd.concat([weekEndResult, preDF], axis = 1, join_axes=[weekEndResult.index])
-"""
+    #weekEndResult = pd.concat([weekEndResult, preDF], axis = 1, join_axes=[weekEndResult.index])
+
 #a = weekEndResult.index.values
 
 #weekEndResult = firstPD.copy()
