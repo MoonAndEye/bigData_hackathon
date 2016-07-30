@@ -121,6 +121,7 @@ indexL = firstPD[columnL[-1]] #indexL 則是放所有的停車場的 ID, 之後�
 
 weekEndResult = pd.DataFrame(index = indexL) #先做出模版, index 用停車場ID
 weekEndResult = weekEndResult.groupby(weekEndResult.index).first()
+weekDayResult = weekEndResult.copy()
 #preDF = loadInPd(weekEndFL[5000])
 """
 #以下測試
@@ -149,7 +150,7 @@ a902.columns = [weekEndNL[902]]
 #weekEndResult = weekEndResult.join(a901, how = "outer")
 #weekEndResult = weekEndResult.join(a902, how = "outer")
 
-
+"""
 for each_raw in weekEndFL:
     preDF = loadInPd(each_raw)
     indexCount = weekEndFL.index(each_raw)
@@ -171,7 +172,7 @@ for each_raw in weekEndFL:
     #weekEndResult = weekEndResult.join(preDF)
     #b4 = weekEndResult.copy()
     #weekEndResult = pd.concat([weekEndResult, preDF], axis = 1, join_axes=[weekEndResult.index])
-
+"""
 #a = weekEndResult.index.values
 
 #weekEndResult = firstPD.copy()
@@ -179,8 +180,37 @@ for each_raw in weekEndFL:
 #tempCol = list(weekEndResult.columns.values)
 
 #for eachRaw in weekDayFL:
-    
 
+
+for each_raw in weekDayFL:
+    preDF = loadInPd(each_raw)
+    indexCount = weekDayFL.index(each_raw)
+    dateIn = weekDayNL[indexCount]
+    delList = []
+    preIn = list(preDF.index.values)
+    
+    #colN = preDF.columns.values
+    
+    preDF.columns = [dateIn]
+    weekDayResult = weekDayResult.join(preDF, how = "outer")
+    weekDayResult = weekDayResult.groupby(weekDayResult.index).first()
+    #preDF = preDF.rename(columns = {"AVAILABLECAR", dateIn}) #這行有錯
+    #delayMatrix = pd.concat([delayMatrix, b4_input], axis=1, join_axes=[b4_input.index])
+    # result = pd.merge(left, right, left_index=True, right_index=True, how='outer')
+    #weekEndResult = pd.concat([weekEndResult, preDF], axis = 1, join_axes=[weekEndResult.index], join = "outer")
+    #weekEndResult = pd.merge(weekEndResult, preDF)
+    #b4 = weekEndResult.copy()
+    #weekEndResult = weekEndResult.join(preDF)
+    #b4 = weekEndResult.copy()
+    #weekEndResult = pd.concat([weekEndResult, preDF], axis = 1, join_axes=[weekEndResult.index])
+
+
+  
+weekEndPath = "weekend.csv"
+weekDayPath = "weekday.csv"
+
+#weekEndResult.to_csv(weekEndPath)
+weekDayResult.to_csv(weekDayPath)
 
 
 
