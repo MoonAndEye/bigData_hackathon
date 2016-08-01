@@ -16,5 +16,9 @@ raw = pd.read_csv(filePath + fileN, index_col = 0)
 fileNinfo ='information.csv'
 info = pd.read_csv(filePath + fileNinfo)
 
+rawIn = [x for x in raw.index]
+
+print(rawIn[:10])
+
 infoColN = [x for x in info.columns.values]
 infoColN[0] = "id"
